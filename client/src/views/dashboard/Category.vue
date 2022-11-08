@@ -84,7 +84,7 @@ onMounted(() => {
 
 const loadData = async () => {
     let result = await axios.get("/category/list");
-    categoryList.value = result.data.data;
+    categoryList.value = result.data.rows;
 };
 
 const add = async () => {

@@ -10,7 +10,7 @@ router.get("/list", async (req, res) => {
     res.send({
       code: 200,
       msg: "查询成功",
-      data: rows,
+      rows,
     });
   } else {
     res.send({
