@@ -2,6 +2,26 @@ const express = require("express");
 const router = express.Router();
 const { db, genid } = require("../db/DbUtils");
 
+// 获取博客
+router.get("detail", async (req, res) => {
+  let {id} = req.query;
+  let sql = `Select * From blog Where id = ?`;
+  let {err, rows} = await db.query(sql, [id]);
+
+  if (!err) {
+    res.send({
+      code: 200,
+      msg: "获取成功",
+      data: rows[0],
+    });
+  } else {
+    res.send({
+      code: 500,
+      msg: "获取失败",
+    });
+  }
+});
+
 // 添加博客
 router.post("/_token/add", async (req, res) => {
   let { title, content, categoryId } = req.body;
@@ -111,7 +131,7 @@ router.get("/search", async (req, res) => {
   }
 
   // 查询分页内容
-  let searchSql = `Select * From blog ${whereSqlStr} Order By create_time Desc Limit ?, ?`;
+  let searchSql = "Select `id`, `category_id`, `title`, substr(`content`, 0, 50) As `content`, `create_time` From blog " + whereSqlStr + " Order By create_time Desc Limit ?, ?";
   let searchSqlParams = [...params, (page - 1) * pageSize, pageSize];
 
   // 查询数据总数
