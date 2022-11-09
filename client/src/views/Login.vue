@@ -50,16 +50,11 @@ const admin = reactive({
   remember: localStorage.getItem("remember") === "true"
 });
 
-console.log(localStorage.getItem("remember"));
-
 const login = async () => {
   let result = await axios.post("/admin/login", {
     account: admin.account,
     password: admin.password,
   });
-
-  console.log(result);
-  
 
   if (result.data.code === 200) {
     adminStore.id = result.data.data.id;

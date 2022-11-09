@@ -8,8 +8,8 @@
           <template #footer>
             <n-space align="center">
               <div>发布时间： {{ blog.create_time }}</div>
-              <n-button type="info" @click="toUpdate(blog)">修改</n-button>
-              <n-button type="warning" @click="confirmDel(blog)">删除</n-button>
+              <n-button type="info" ghost @click="toUpdate(blog)">修改</n-button>
+              <n-button type="warning" ghost @click="confirmDel(blog)">删除</n-button>
             </n-space>
           </template>
         </n-card>
@@ -38,7 +38,7 @@
           <RichTextEditor v-model="addArticle.content"></RichTextEditor>
         </n-form-item>
         <n-form-item label="">
-          <n-button @click="add" type="primary">提交</n-button>
+          <n-button @click="add" type="primary" ghost>提交</n-button>
         </n-form-item>
       </n-form>
     </n-tab-pane>
@@ -60,7 +60,7 @@
           <RichTextEditor v-model="updateArticle.content"></RichTextEditor>
         </n-form-item>
         <n-form-item label="">
-          <n-button @click="update" type="primary">提交</n-button>
+          <n-button @click="update" type="primary" ghost>提交</n-button>
         </n-form-item>
       </n-form>
     </n-tab-pane>
@@ -124,8 +124,6 @@ const loadBlogData = async () => {
   });
   pageInfo.count = res.data.data.total;
   pageInfo.pageCount = Math.ceil(pageInfo.count / pageInfo.pageSize);
-  console.log(blogListInfo);
-  console.log(pageInfo);
 };
 
 const loadCategoryData = async () => {
@@ -148,6 +146,8 @@ const add = async () => {
     addArticle.title = "";
     addArticle.categoryId = null;
     addArticle.content = "";
+
+    tabValue.value = "list";
   } else {
     message.error(result.data.msg);
   }
@@ -185,6 +185,8 @@ const update = async () => {
     updateArticle.content = "";
 
     loadBlogData();
+
+    // 切换到列表页
     tabValue.value = "list";
   } else {
     message.error(result.data.msg);

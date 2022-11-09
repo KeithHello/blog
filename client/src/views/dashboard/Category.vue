@@ -1,6 +1,6 @@
 <template>
     <div>
-        <n-button @click="showAddModal = true">添加分类</n-button>
+        <n-button class="button" @click="showAddModal = true" type="warning" ghost>添加分类</n-button>
         <n-table :bordered="false" :single-line="false">
             <thead>
                 <tr>
@@ -11,12 +11,12 @@
             </thead>
             <tbody>
                 <tr v-for="(category, index) in categoryList">
-                    <td>{{ category.id }}</td>
+                    <td>{{ index + 1 }}</td>
                     <td>{{ category.name }}</td>
                     <td>
                         <n-space>
-                            <n-button @click="toUpdate(category)">修改</n-button>
-                            <n-button @click="confirmDel(category)" type="error">删除</n-button>
+                            <n-button @click="toUpdate(category)" type="primary" ghost>修改</n-button>
+                            <n-button @click="confirmDel(category)" type="error" ghost>删除</n-button>
                         </n-space>
                     </td>
                 </tr>
@@ -150,5 +150,7 @@ const update = async () => {
 </script>
 
 <style lang="scss" scoped>
-
+.button {
+    margin-bottom: 15px;
+}
 </style>

@@ -108,8 +108,6 @@ router.get("/search", async (req, res) => {
 
   let { keyword, categoryId, page, pageSize } = req.query;
 
-  console.log(req.query);
-
   page = page || 1;
   pageSize = pageSize || 10;
   categoryId = categoryId || 0;

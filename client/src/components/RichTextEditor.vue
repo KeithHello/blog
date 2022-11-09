@@ -80,7 +80,6 @@ const handleCreated = (editor) => {
 };
 const handleChange = (editor) => {
   //   console.log("change:", editorRef.value);
-
   if (initFinished) {
     emit("update:model-value", valueHtml.value);
   }

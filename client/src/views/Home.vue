@@ -3,11 +3,7 @@
     <div class="nav">
       <div @click="homepage">首页</div>
       <div>
-        <n-popselect
-          v-model:value="selectedCategory"
-          :options="categoryOptions"
-          trigger="click"
-        >
+        <n-popselect @update:value="searchByCategory" v-model:value="selectedCategory" :options="categoryOptions" trigger="click">
           <div>
             分类<span>{{ categoryName }}</span>
           </div>
@@ -18,12 +14,12 @@
     <n-divider />
 
     <n-space class="search">
-        <n-input class="searchBox" v-model:value="pageInfo.keyword" placeholder="请输入搜索内容" />
-        <n-button type="primary" ghost @click="loadBlogData">搜索</n-button>
+      <n-input class="searchBox" v-model:value="pageInfo.keyword" placeholder="请输入搜索内容" />
+      <n-button type="primary" ghost @click="loadBlogData(0)">搜索</n-button>
     </n-space>
 
     <div v-for="(blog, index) in blogListInfo">
-      <n-card :title="blog.title" class="article">
+      <n-card class="article" :title="blog.title" @click="toDetail(blog)">
         {{ blog.content }}
 
         <template #footer>
@@ -34,11 +30,7 @@
       </n-card>
     </div>
 
-    <n-pagination
-      @update:page="loadBlogData"
-      v-model:page="pageInfo.page"
-      :page-count="pageInfo.pageCount"
-    />
+    <n-pagination @update:page="loadBlogData" v-model:page="pageInfo.page" :page-count="pageInfo.pageCount" />
 
     <n-divider />
     <div class="footer">
@@ -72,6 +64,7 @@ const pageInfo = reactive({
   pageCount: 0,
   count: 0,
   keyword: "",
+  categoryId: null,
 });
 
 onMounted(() => {
@@ -96,10 +89,9 @@ const loadBlogData = async (page = 0) => {
       page: pageInfo.page,
       pageSize: pageInfo.pageSize,
       keyword: pageInfo.keyword,
+      categoryId: pageInfo.categoryId,
     },
   });
-
-  console.log(pageInfo.page);
 
 
   blogListInfo.value = res.data.data.list.map((item) => {
@@ -121,6 +113,20 @@ const loadCategoryData = async () => {
   });
 };
 
+const searchByCategory = async (categoryId) => {
+  pageInfo.categoryId = categoryId;
+  loadBlogData();
+};
+
+const toDetail = (blog) => {
+  router.push({
+    path: "/detail",
+    query: {
+      id: blog.id,
+    },
+  });
+};
+
 const homepage = () => {
   router.push("/");
 };
@@ -134,12 +140,13 @@ const dashboard = () => {
   width: 1200px;
   margin: 0 auto;
 }
+
 .nav {
   display: flex;
   font-size: 20px;
   color: #64676a;
-  padding: 20px 0;
-  border-bottom: 1px solid #dadada;
+  padding-top: 20px;
+
   div {
     cursor: pointer;
     margin-right: 15px;
@@ -147,6 +154,7 @@ const dashboard = () => {
     &:hover {
       color: #fd760e;
     }
+
     span {
       font-size: 12px;
     }
@@ -154,7 +162,13 @@ const dashboard = () => {
 }
 
 .searchBox {
-    width: 500px;
+  width: 500px;
+  margin-bottom: 15px;
+}
+
+.article {
+  margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .footer {

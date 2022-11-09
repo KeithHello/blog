@@ -32,8 +32,11 @@ let menus = [
 
 const toPage = (menu) => {
     if (menu.href === "logout") {
-        // adminStore.logout();
-        router.push("/login");
+        adminStore.id = 0;
+        adminStore.name = "";
+        adminStore.token = "";
+
+        router.push("/");
     } else {
         router.push(menu.href);
     }

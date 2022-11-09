@@ -4,7 +4,7 @@ const { db, genid } = require("../db/DbUtils");
 
 // 列表接口
 router.get("/list", async (req, res) => {
-  let { err, rows } = await db.async.all("Select * From `category`", []);
+  let { err, rows } = await db.async.all("Select * From `category` Order By `create_time`", []);
 
   if (!err) {
     res.send({
@@ -23,8 +23,10 @@ router.get("/list", async (req, res) => {
 // 添加接口
 router.post("/_token/add", async (req, res) => {
   let { name } = req.body;
-  const insert_sql = "Insert Into `category` (`id`, `name`) Values (?, ?)";
-  let { err, rows } = await db.async.run(insert_sql, [genid.NextId(), name]);
+  let createTime = new Date().getTime();
+
+  const insert_sql = "Insert Into `category` (`id`, `name`, `create_time`) Values (?, ?, ?)";
+  let { err, rows } = await db.async.run(insert_sql, [genid.NextId(), name, createTime]);
 
   if (!err) {
     res.send({

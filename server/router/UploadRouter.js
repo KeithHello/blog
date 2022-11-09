@@ -16,8 +16,6 @@ router.post("/rich_editor_upload", async (req, res) => {
     let files = req.files;
     let ret_files = [];
 
-    console.log(req);
-
     for (let file of files) {
         // 获取文件后缀名
         let file_ext = file.originalname.split(".").pop();
