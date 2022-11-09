@@ -6,15 +6,22 @@ let routes = [
         component: () => import('../views/Test.vue')
     },
     {
+        path: '/',
+        name: 'Home',
+        component: () => import('../views/Home.vue')
+    },
+    {
         path: '/login',
+        name: 'Login',
         component: () => import('../views/Login.vue')
     },
     {
         path: '/dashboard',
+        name: 'Dashboard',
         component: () => import('../views/dashboard/Dashboard.vue'),
         children: [
-            {path: "/dashboard/category", component: () => import('../views/dashboard/Category.vue')},
-            {path: "/dashboard/article", component: () => import('../views/dashboard/Article.vue')},
+            {path: "/dashboard/category", name: 'Dashboard/Category', component: () => import('../views/dashboard/Category.vue')},
+            {path: "/dashboard/article", name: 'Dashboard/Article', component: () => import('../views/dashboard/Article.vue')},
         ]
     },
 ]

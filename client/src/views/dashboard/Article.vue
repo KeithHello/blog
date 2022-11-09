@@ -8,8 +8,8 @@
           <template #footer>
             <n-space align="center">
               <div>发布时间： {{ blog.create_time }}</div>
-              <n-button @click="toUpdate(blog)">修改</n-button>
-              <n-button>删除</n-button>
+              <n-button type="info" @click="toUpdate(blog)">修改</n-button>
+              <n-button type="warning" @click="confirmDel(blog)">删除</n-button>
             </n-space>
           </template>
         </n-card>
@@ -17,7 +17,7 @@
 
       <n-space>
         <div v-for="pageNum in pageInfo.pageCount" @click="toPage(pageNum)">
-          <div class="item" :class="{ color: pageNum === pageInfo.page }">
+          <div class="item" :class="{ paging: pageNum === pageInfo.page }">
             {{ pageNum }}
           </div>
         </div>
@@ -43,9 +43,12 @@
       </n-form>
     </n-tab-pane>
     <n-tab-pane name="update" tab="修改">
-        <n-form>
+      <n-form>
         <n-form-item label="标题">
-          <n-input v-model:value="updateArticle.title" placeholder="请输入标题" />
+          <n-input
+            v-model:value="updateArticle.title"
+            placeholder="请输入标题"
+          />
         </n-form-item>
         <n-form-item label="分类">
           <n-select
@@ -60,7 +63,6 @@
           <n-button @click="update" type="primary">提交</n-button>
         </n-form-item>
       </n-form>
-
     </n-tab-pane>
   </n-tabs>
 </template>
@@ -73,6 +75,7 @@ import RichTextEditor from "../../components/RichTextEditor.vue";
 
 const axios = inject("axios");
 const message = inject("message");
+const dialog = inject("dialog");
 const adminStore = AdminStore();
 
 const router = useRouter();
@@ -84,7 +87,7 @@ const addArticle = reactive({
   content: "",
 });
 const updateArticle = reactive({
-    id: 0,
+  id: 0,
   title: "",
   categoryId: null,
   content: "",
@@ -156,14 +159,65 @@ const toPage = async (pageNum) => {
 };
 
 const toUpdate = async (blog) => {
-    tabValue.value = "update";
-    let res = await axios.get("/blog/detail", {
-        params: {
-            id: blog.id,
+
+  let res = await axios.get("/blog/detail", {
+    params: {
+      id: blog.id,
+    },
+  });
+  updateArticle.id = res.data.data.id;
+  updateArticle.title = res.data.data.title;
+  updateArticle.categoryId = res.data.data.category_id;
+  updateArticle.content = res.data.data.content;
+
+  tabValue.value = "update";
+};
+
+const update = async () => {
+  let result = await axios.put("/blog/_token/update", updateArticle);
+  if (result.data.code === 200) {
+    message.success(result.data.msg);
+
+    // 内容置空
+    updateArticle.id = 0;
+    updateArticle.title = "";
+    updateArticle.categoryId = null;
+    updateArticle.content = "";
+
+    loadBlogData();
+    tabValue.value = "list";
+  } else {
+    message.error(result.data.msg);
+  }
+};
+
+const confirmDel = async (blog) => {
+    dialog.warning({
+        title: '警告',
+        content: '是否要删除',
+        positiveText: '确定',
+        negativeText: '取消',
+        onPositiveClick: () => {
+            del(blog);
         },
-    });
-    console.log(res)
-}
+        onNegativeClick: () => {
+        }
+    })
+};
+
+const del = async (blog) => {
+  let result = await axios.delete("/blog/_token/delete", {
+    params: {
+      id: blog.id,
+    },
+  });
+  if (result.data.code === 200) {
+    message.success(result.data.msg);
+    loadBlogData();
+  } else {
+    message.error(result.data.msg);
+  }
+};
 
 </script>
 
@@ -171,7 +225,7 @@ const toUpdate = async (blog) => {
 .article {
   margin-bottom: 15px;
 }
-.color {
+.paging {
   color: aqua;
 }
 .item {

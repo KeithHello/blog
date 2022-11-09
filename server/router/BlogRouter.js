@@ -3,10 +3,10 @@ const router = express.Router();
 const { db, genid } = require("../db/DbUtils");
 
 // 获取博客
-router.get("detail", async (req, res) => {
+router.get("/detail", async (req, res) => {
   let {id} = req.query;
   let sql = `Select * From blog Where id = ?`;
-  let {err, rows} = await db.query(sql, [id]);
+  let {err, rows} = await db.async.all(sql, [id]);
 
   if (!err) {
     res.send({
@@ -78,7 +78,7 @@ router.put("/_token/update", async (req, res) => {
 
 // 删除博客
 router.delete("/_token/delete", async (req, res) => {
-  let { id } = req.body;
+  let { id } = req.query;
   const delete_sql = "Delete From `blog` Where `id` = ?";
   let { err, rows } = await db.async.run(delete_sql, [id]);
 
@@ -107,6 +107,8 @@ router.get("/search", async (req, res) => {
    */
 
   let { keyword, categoryId, page, pageSize } = req.query;
+
+  console.log(req.query);
 
   page = page || 1;
   pageSize = pageSize || 10;
