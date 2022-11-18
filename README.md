@@ -20,7 +20,7 @@ Open the browser and enter `http://127.0.0.1:5173/`.
 
 There you see the page below.
 
-![](image/home.png)
+![home](image/home.png)
 
 ## Description
 
@@ -28,11 +28,11 @@ There you see the page below.
 
 List all the articles the blog has. The user can filter articles by using the key word searching, that is the search bar below the header(搜索) or by using the category sorting function of the header (分类).
 
-![](image/home.png)
+![home](image/home.png)
 
 The key word searching is to search the key word containing in the title or content.
 
-![](image/home_search.png)
+![search](image/home_search.png)
 
 The category sorting function is to search the articles by category.
 
@@ -40,15 +40,13 @@ And you can even search articles combined using key word searching and category 
 
 ※Category is defined in the category management.
 
-![](image\home_category.png)
-
-
+![search](image/home_category.png)
 
 The articles list only provides title and limited contents of the articles.
 
 If you want to see the detail of the articles, you can click the article and enter the detail page.
 
-![](image\home_detail.png)
+![detail](image/home_detail.png)
 
 
 
@@ -62,13 +60,11 @@ Otherwise, the user cannot make any changes to the data.
 
 #### Login page
 
-![](image\login.png)
+![login](image/login.png)
 
 #### Illegal Access
 
-![](image\backoffice_authentication.png)
-
-
+![authentication](image/backoffice_authentication.png)
 
 ### Article Management
 
@@ -76,35 +72,34 @@ You can add, edit, and delete the articles and categories in the Backoffice.
 
 Any operation without authentication would be prohibited.
 
-
-
 #### Article List
-![](image\backoffice_article.png)
+![list](image/backoffice_article.png)
 
 #### Article Addition
-![](image/backoffice_article_add.png)
+![add](image/backoffice_article_add.png)
 
 #### Article modification
-![](image/backoffice_article_update.png)
+![update](image/backoffice_article_update.png)
 
 #### Article Deletion
-![](image/backoffice_article_delete.png)
+![delete](image/backoffice_article_delete.png)
 
 #### Category List
-![](image\backoffice_category.png)
+![list](image/backoffice_category.png)
 
 #### Category Addition
-![](image/backoffice_category_add.png)
+![add](image/backoffice_category_add.png)
 
 #### Category modification
-![](image/backoffice_category_update.png)
+![update](image/backoffice_category_update.png)
 
 #### Category Deletion
-![](image/backoffice_category_delete.png)
+![delete](image/backoffice_category_delete.png)
 
 ## Technology Stack
 - Front
   - vue3
+  - naive ui
   - wangeditor (editor)
   - axios
   - pinia (status management)
