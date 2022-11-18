@@ -42,13 +42,11 @@ And you can even search articles combined using key word searching and category 
 
 ![](image\home_category.png)
 
-
-
 The articles list only provides title and limited contents of the articles.
 
 If you want to see the detail of the articles, you can click the article and enter the detail page.
 
-![](image\home_detail.png)
+![detail](image\home_detail.png)
 
 
 
@@ -68,15 +66,11 @@ Otherwise, the user cannot make any changes to the data.
 
 ![](image\backoffice_authentication.png)
 
-
-
 ### Article Management
 
 You can add, edit, and delete the articles and categories in the Backoffice.
 
 Any operation without authentication would be prohibited.
-
-
 
 #### Article List
 ![](image\backoffice_article.png)
