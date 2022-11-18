@@ -22,8 +22,6 @@ There you see the page below.
 
 ![home](image/home.png)
 
-※username: admin; password: 123456
-
 ## Description
 
 ### Home
@@ -59,6 +57,8 @@ The authentication function is implemented to prevent illegal modification of th
 If the user want to add or edit the articles or categories, he/she should login first.
 
 Otherwise, the user cannot make any changes to the data.
+
+※username: admin; password: 123456
 
 #### Login page
 
