@@ -22,6 +22,8 @@ There you see the page below.
 
 ![home](image/home.png)
 
+※username: admin; password: 123456
+
 ## Description
 
 ### Home
