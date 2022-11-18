@@ -3,13 +3,20 @@
     <n-tab-pane name="list" tab="文章列表">
       <div v-for="(blog, index) in blogListInfo">
         <n-card :title="blog.title" class="article">
-          {{ blog.content }}
+          <div class="font">
+            <span v-html="blog.content"></span>
+            <span>...</span>
+          </div>
 
           <template #footer>
             <n-space align="center">
               <div>发布时间： {{ blog.create_time }}</div>
-              <n-button type="info" ghost @click="toUpdate(blog)">修改</n-button>
-              <n-button type="warning" ghost @click="confirmDel(blog)">删除</n-button>
+              <n-button type="info" ghost @click="toUpdate(blog)"
+                >修改</n-button
+              >
+              <n-button type="warning" ghost @click="confirmDel(blog)"
+                >删除</n-button
+              >
             </n-space>
           </template>
         </n-card>
@@ -100,7 +107,7 @@ const tabValue = ref("list");
 // 分页
 const pageInfo = reactive({
   page: 1,
-  pageSize: 3,
+  pageSize: 10,
   pageCount: 0,
   count: 0,
 });
@@ -140,7 +147,7 @@ const add = async () => {
   let result = await axios.post("/blog/_token/add", addArticle);
   if (result.data.code === 200) {
     message.success(result.data.msg);
-    loadCategoryData();
+    loadBlogData();
 
     // 内容置空
     addArticle.title = "";
@@ -159,7 +166,6 @@ const toPage = async (pageNum) => {
 };
 
 const toUpdate = async (blog) => {
-
   let res = await axios.get("/blog/detail", {
     params: {
       id: blog.id,
@@ -194,17 +200,16 @@ const update = async () => {
 };
 
 const confirmDel = async (blog) => {
-    dialog.warning({
-        title: '警告',
-        content: '是否要删除',
-        positiveText: '确定',
-        negativeText: '取消',
-        onPositiveClick: () => {
-            del(blog);
-        },
-        onNegativeClick: () => {
-        }
-    })
+  dialog.warning({
+    title: "警告",
+    content: "是否要删除",
+    positiveText: "确定",
+    negativeText: "取消",
+    onPositiveClick: () => {
+      del(blog);
+    },
+    onNegativeClick: () => {},
+  });
 };
 
 const del = async (blog) => {
@@ -220,17 +225,26 @@ const del = async (blog) => {
     message.error(result.data.msg);
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
 .article {
   margin-bottom: 15px;
 }
+
 .paging {
   color: aqua;
 }
+
 .item {
   cursor: pointer;
+}
+
+.font {
+  display: flex;
+  align-items: center;
+
+  span {
+  }
 }
 </style>

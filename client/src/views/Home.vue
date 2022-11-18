@@ -3,7 +3,12 @@
     <div class="nav">
       <div @click="homepage">首页</div>
       <div>
-        <n-popselect @update:value="searchByCategory" v-model:value="selectedCategory" :options="categoryOptions" trigger="click">
+        <n-popselect
+          @update:value="searchByCategory"
+          v-model:value="selectedCategory"
+          :options="categoryOptions"
+          trigger="click"
+        >
           <div>
             分类<span>{{ categoryName }}</span>
           </div>
@@ -14,13 +19,20 @@
     <n-divider />
 
     <n-space class="search">
-      <n-input class="searchBox" v-model:value="pageInfo.keyword" placeholder="请输入搜索内容" />
+      <n-input
+        class="searchBox"
+        v-model:value="pageInfo.keyword"
+        placeholder="请输入搜索内容"
+      />
       <n-button type="primary" ghost @click="loadBlogData(0)">搜索</n-button>
     </n-space>
 
     <div v-for="(blog, index) in blogListInfo">
       <n-card class="article" :title="blog.title" @click="toDetail(blog)">
-        {{ blog.content }}
+        <div class="font">
+          <span v-html="blog.content"></span>
+          <span>...</span>
+        </div>
 
         <template #footer>
           <n-space align="center">
@@ -30,7 +42,11 @@
       </n-card>
     </div>
 
-    <n-pagination @update:page="loadBlogData" v-model:page="pageInfo.page" :page-count="pageInfo.pageCount" />
+    <n-pagination
+      @update:page="loadBlogData"
+      v-model:page="pageInfo.page"
+      :page-count="pageInfo.pageCount"
+    />
 
     <n-divider />
     <div class="footer">
@@ -60,7 +76,7 @@ const categoryOptions = ref([]);
 // 分页
 const pageInfo = reactive({
   page: 1,
-  pageSize: 3,
+  pageSize: 10,
   pageCount: 0,
   count: 0,
   keyword: "",
@@ -93,9 +109,7 @@ const loadBlogData = async (page = 0) => {
     },
   });
 
-
   blogListInfo.value = res.data.data.list.map((item) => {
-    item.content += "...";
     item.create_time = new Date(item.create_time).toLocaleString();
     return item;
   });
@@ -164,6 +178,11 @@ const dashboard = () => {
 .searchBox {
   width: 500px;
   margin-bottom: 15px;
+}
+
+.font {
+  display: flex;
+  align-items: center;
 }
 
 .article {
