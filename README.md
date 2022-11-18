@@ -99,6 +99,7 @@ Any operation without authentication would be prohibited.
 ## Technology Stack
 - Front
   - vue3
+  - naive ui
   - wangeditor (editor)
   - axios
   - pinia (status management)
